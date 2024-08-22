@@ -1,0 +1,35 @@
+{
+  "payload": {
+    "event": "scoreboardUpdate",
+    "data": {
+      "scores": [
+        {
+          "userId": "string",
+          "firstName": "string",
+          "lastName": "string",
+          "score": "integer"
+        }
+      ]
+    }
+  },
+
+  "example": {
+    "event": "scoreboardUpdate",
+    "data": {
+      "scores": [
+        {
+          "userId": "user123",
+          "firstName": "John",
+          "lastName": "Doe",
+          "score": 1500
+        },
+        {
+          "userId": "user456",
+          "firstName": "Jane",
+          "lastName": "Smith",
+          "score": 1400
+        }
+      ]
+    }
+  }
+}

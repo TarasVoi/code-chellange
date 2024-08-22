@@ -1,0 +1,185 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Scoreboard API",
+    "description": "API for managing and displaying a live-updated scoreboard with top 10 user scores.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://api.example.com",
+      "description": "Main API server"
+    }
+  ],
+  "paths": {
+    "/api/score/update": {
+      "patch": {
+        "summary": "Update user score",
+        "description": "Updates the score for a specific user after an action is completed.",
+        "operationId": "updateScore",
+        "tags": [
+          "Scoreboard"
+        ],
+        "requestBody": {
+          "description": "Score update request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "userId": {
+                    "type": "string",
+                    "description": "The ID of the user whose score is being updated."
+                  },
+                  "score": {
+                    "type": "integer",
+                    "description": "The new score value for the user."
+                  }
+                },
+                "required": [
+                  "userId",
+                  "score"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Score updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Invalid input data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Invalid input data"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing JWT token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized access or invalid token"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/score/top": {
+      "get": {
+        "summary": "Get top 10 scores",
+        "description": "Retrieves the top 10 user scores.",
+        "operationId": "getTopScores",
+        "tags": [
+          "Scoreboard"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved top 10 scores",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "scores": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "userId": {
+                            "type": "string",
+                            "description": "The ID of the user."
+                          },
+                          "firstName": {
+                            "type": "string",
+                            "description": "The first name of the user."
+                          },
+                          "lastName": {
+                            "type": "string",
+                            "description": "The last name of the user."
+                          },
+                          "score": {
+                            "type": "integer",
+                            "description": "The score of the user."
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "An error occurred while retrieving scores"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "jwt": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "jwt": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Scoreboard",
+      "description": "Operations related to managing and retrieving user scores."
+    }
+  ]
+}
